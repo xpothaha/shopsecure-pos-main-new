@@ -1,0 +1,27 @@
+# Caddyfile for ShopSecure POS
+
+# Replace example.com with your actual domain
+example.com {
+    # Enable HTTPS automatically
+    tls internal
+
+    # Reverse proxy for API requests
+    handle /api/* {
+        reverse_proxy localhost:3000
+    }
+
+    # Serve static files for frontend
+    handle {
+        root * /var/www/shopsecure/dist
+        try_files {path} /index.html
+        file_server
+    }
+
+    # Enable compression
+    encode gzip
+
+    # Enable logging
+    log {
+        output file /var/log/caddy/shopsecure.log
+    }
+}
